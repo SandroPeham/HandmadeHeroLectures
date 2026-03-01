@@ -1,0 +1,74 @@
+set langmenu=en_US.UTF-8
+language messages en_US.UTF-8
+
+" set UTF-8 encoding
+set enc=utf-8
+set fenc=utf-8
+set termencoding=utf-8
+
+" disable vi compatibility (emulation of old bugs)
+set nocompatible
+
+" use indentation of previous line
+set autoindent
+
+" use intelligent indentation for C
+set smartindent
+
+" configure tabwidth and insert spaces instead of tabs
+set tabstop=4        " tab width is 4 spaces
+set shiftwidth=4     " indent also with 4 spaces
+set expandtab        " expand tabs to spaces
+
+" wrap lines at 120 chars. 80 is somewaht antiquated with nowadays displays.
+" set textwidth=120
+set textwidth=0
+
+" turn syntax highlighting on
+set t_Co=256
+syntax on
+
+" colorscheme wombat256
+colorscheme desert
+
+" turn line numbers on
+set number
+set cursorline
+
+" highlight matching braces
+set showmatch
+
+" backspace possible for everything in insert mode
+set backspace=indent,eol,start 
+
+
+" Ensure the buffer for building code opens in a new view
+set switchbuf=useopen,split
+ 
+" Thanks to https://forums.handmadehero.org/index.php/forum?view=topic&catid=4&id=704#3982
+" error message formats
+" Microsoft MSBuild
+set errorformat+=\\\ %#%f(%l\\\,%c):\ %m
+" Microsoft compiler: cl.exe
+set errorformat+=\\\ %#%f(%l)\ :\ %#%t%[A-z]%#\ %m
+" Microsoft HLSL compiler: fxc.exe
+set errorformat+=\\\ %#%f(%l\\\,%c-%*[0-9]):\ %#%t%[A-z]%#\ %m
+ 
+ 
+function! DoBuildBatchFile()
+    " build.bat
+    set makeprg=build
+    " Make sure the output doesnt interfere with anything
+    silent make
+    " Open the output buffer
+    copen
+    echo 'Build Complete'
+endfunction
+ 
+" Set F7 to build. I like this since I use visual studio with the c++ build env
+nnoremap <F7> :call DoBuildBatchFile()<CR>
+ 
+"Go to next error
+nnoremap <F6> :cn<CR>
+"Go to previous error
+nnoremap <F5> :cp<CR>
